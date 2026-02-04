@@ -4,6 +4,8 @@ Aplicação web para gerar thumbnails automaticamente com remoção de fundo usa
 
 <img width="1920" height="949" alt="image" src="https://github.com/user-attachments/assets/f126af62-71bb-412f-ad6b-1fae5567c72e" />
 
+Acesse em: https://gerador-de-thumbnail.vercel.app/
+
 ## Sobre o Projeto
 
 Este projeto permite fazer upload de imagens e gerar thumbnails com o fundo removido automaticamente.
