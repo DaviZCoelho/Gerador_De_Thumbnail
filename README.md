@@ -31,6 +31,18 @@ Este projeto permite fazer upload de imagens e gerar thumbnails profissionais co
 
 ---
 
+## Como Funciona
+
+1. Usuário faz upload de uma imagem no frontend
+2. Frontend solicita URL pré-assinada via API Gateway
+3. Imagem é enviada diretamente para o S3 (bucket input)
+4. S3 dispara evento que aciona a Lambda
+5. Lambda processa a imagem com rembg (remove fundo)
+6. Thumbnail é salva no S3 (bucket output)
+7. Frontend exibe a thumbnail processada
+
+---
+
 ## Como Executar Localmente
 
 ### Pré-requisitos
@@ -180,50 +192,3 @@ npm run dev
 Acesse: http://localhost:3000
 
 ---
-
-## Estrutura do Projeto
-
-```
-Gerador_De_Thumbnail/
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   └── ImageUploader.jsx
-│   │   ├── App.jsx
-│   │   └── index.css
-│   ├── index.html
-│   ├── package.json
-│   ├── tailwind.config.js
-│   └── vite.config.js
-├── backend/
-│   ├── app.py
-│   ├── presigned_url_handler.py
-│   ├── Dockerfile
-│   └── requirements.txt
-├── .gitignore
-└── README.md
-```
-
----
-
-## Como Funciona
-
-1. Usuário faz upload de uma imagem no frontend
-2. Frontend solicita URL pré-assinada via API Gateway
-3. Imagem é enviada diretamente para o S3 (bucket input)
-4. S3 dispara evento que aciona a Lambda
-5. Lambda processa a imagem com rembg (remove fundo)
-6. Thumbnail é salva no S3 (bucket output)
-7. Frontend exibe a thumbnail processada
-
----
-
-## Autor
-
-**Davi Coelho** - [GitHub](https://github.com/DaviZCoelho)
-
----
-
-## Licença
-
-Este projeto está sob a licença MIT.
