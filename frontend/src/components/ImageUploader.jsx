@@ -78,10 +78,10 @@ export default function ImageUploader() {
     return await response.json()
   }
 
-  const uploadWithPresignedUrl = async (file, uploadUrl) => {
+  const uploadWithPresignedUrl = async (file, uploadUrl, contentType) => {
     const response = await fetch(uploadUrl, {
       method: 'PUT',
-      headers: { 'Content-Type': file.type },
+      headers: { 'Content-Type': contentType },
       body: file
     })
     
@@ -127,14 +127,19 @@ export default function ImageUploader() {
 
     try {
       const timestamp = Date.now()
-      const extension = selectedFile.name.split('.').pop()
-      const fileName = `${timestamp}_${title.replace(/[^a-zA-Z0-9]/g, '_')}.${extension}`
+      const extension = selectedFile.name.split('.').pop().toLowerCase()
+      const fileName = `${timestamp}_${title.replace(/[^a-zA-Z0-9]/g, '_')}.${extension === 'jfif' ? 'jpg' : extension}`
+
+      let contentType = selectedFile.type
+      if (!contentType || contentType === '' || extension === 'jfif') {
+        contentType = 'image/jpeg'
+      }
 
       setStatus({ type: 'info', message: 'Obtendo URL de upload...' })
-      const { uploadUrl, key } = await getPresignedUrl(fileName, selectedFile.type)
+      const { uploadUrl, key } = await getPresignedUrl(fileName, contentType)
 
       setStatus({ type: 'info', message: 'Enviando imagem...' })
-      await uploadWithPresignedUrl(selectedFile, uploadUrl)
+      await uploadWithPresignedUrl(selectedFile, uploadUrl, contentType)
 
       const thumbnailUrl = await checkThumbnailStatus(key)
       
