@@ -4,7 +4,7 @@ Aplicação web para gerar thumbnails automaticamente com remoção de fundo usa
 
 ## Sobre o Projeto
 
-Este projeto permite fazer upload de imagens e gerar thumbnails profissionais com o fundo removido automaticamente. Ideal para criadores de conteúdo, YouTubers e streamers que precisam de thumbnails de alta qualidade de forma rápida.
+Este projeto permite fazer upload de imagens e gerar thumbnails com o fundo removido automaticamente.
 
 ## Tecnologias Utilizadas
 
