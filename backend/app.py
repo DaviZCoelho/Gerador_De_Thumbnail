@@ -69,7 +69,17 @@ def add_text_to_image(image, text):
     return image
 
 
-def process_image(image_bytes):
+def extract_title_from_filename(filename):
+    base_name = os.path.splitext(filename)[0]
+    parts = base_name.split('_', 1)
+    if len(parts) > 1:
+        title = parts[1].rsplit('_thumbnail', 1)[0]
+        title = title.replace('_', ' ')
+        return title.upper()
+    return base_name.upper()
+
+
+def process_image(image_bytes, title="THUMBNAIL"):
     print("Removendo fundo da imagem...")
     image_no_bg = remove(image_bytes)
     foreground = Image.open(io.BytesIO(image_no_bg)).convert("RGBA")
@@ -87,8 +97,8 @@ def process_image(image_bytes):
     print("Compondo imagem final...")
     background.paste(resized_foreground, (x, y), resized_foreground)
     
-    print("Adicionando texto...")
-    final_image = add_text_to_image(background, "TESTE")
+    print(f"Adicionando texto: {title}")
+    final_image = add_text_to_image(background, title)
     
     final_image = final_image.convert("RGB")
     
@@ -118,7 +128,10 @@ def lambda_handler(event, context):
         image_bytes = response['Body'].read()
         print(f"Imagem baixada: {len(image_bytes)} bytes")
         
-        processed_image = process_image(image_bytes)
+        title = extract_title_from_filename(object_key)
+        print(f"Título extraído: {title}")
+        
+        processed_image = process_image(image_bytes, title)
         print(f"Imagem processada: {len(processed_image)} bytes")
         
         base_name = os.path.splitext(object_key)[0]
