@@ -20,7 +20,8 @@ export default function ImageUploader() {
   const handleFileSelect = (event) => {
     const file = event.target.files[0]
     if (file) {
-      if (!file.type.startsWith('image/')) {
+      const isValidImage = file.type.startsWith('image/') || file.name.toLowerCase().endsWith('.jfif')
+      if (!isValidImage) {
         setStatus({ type: 'error', message: 'Por favor, selecione uma imagem válida.' })
         return
       }
@@ -181,7 +182,7 @@ export default function ImageUploader() {
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/*"
+              accept="image/*,.jfif"
               onChange={handleFileSelect}
               className="hidden"
             />
